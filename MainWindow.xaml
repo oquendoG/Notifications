@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="500" HorizontalAlignment="Center" VerticalAlignment="Center">
     <Grid Width="500" Height="700" FlowDirection="RightToLeft">
-        <Image x:Name="MainImage" HorizontalAlignment="Center" Height="700" Margin="0,0,0,0" VerticalAlignment="Top" Width="500" Grid.ColumnSpan="4" Source="Assets/1.png" Loaded="MainImage_Loaded" Panel.ZIndex="8"/>
+        <Button x:Name="btnAtras" Panel.ZIndex="10" Content="Anterior" HorizontalAlignment="Left" Margin="380,620,0,0" VerticalAlignment="Top" Width="99" Height="34" Click="Button_Click" FontFamily="Roboto" FontSize="16" Opacity="0.89" OpacityMask="White" Background="White" BorderBrush="Transparent" Cursor="Hand">
+
+        </Button>
+        <Image x:Name="MainImage" HorizontalAlignment="Right" Height="700" Margin="0,0,0,0" VerticalAlignment="Top" Width="500" Grid.ColumnSpan="4" Loaded="MainImage_Loaded" Panel.ZIndex="8"/>
+        <Button x:Name="btnSiguiente" Panel.ZIndex="10"  Content="Siguiente" HorizontalAlignment="Left" Margin="30,620,0,0" VerticalAlignment="Top" Width="99" Height="34" Click="Button_ClickAtras" FontFamily="Roboto" FontSize="16" Opacity="0.89" OpacityMask="White" Background="White" BorderBrush="Transparent" SnapsToDevicePixels="True" Cursor="Hand"/>
     </Grid>
 </Window>

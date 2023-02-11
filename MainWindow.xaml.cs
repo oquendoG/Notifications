@@ -3,7 +3,6 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
 namespace Notificaction;
@@ -14,9 +13,9 @@ public partial class MainWindow : Window
 {
     private int _counter;
     private int _maxImageNumber;
-    private string _routeFile = @"c:\ProgramData\Notifications\Savings.txt";
-    private string _routeFolder = @"c:\ProgramData\Notifications";
-    private string _routeFolderImg = @"c:\ProgramData\NotificationsImg";
+    //private string _docsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    private string _imgFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + @"\NotificationsImg";
+    private string _routeFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Savings.txt";
 
     public MainWindow()
     {
@@ -30,9 +29,7 @@ public partial class MainWindow : Window
         await CreateFile();
         await ReadConfigFile();
 
-        //_route = Environment.CurrentDirectory;
-        //_finalRoute = Directory.GetParent(_route).Parent.Parent.FullName;
-        _maxImageNumber = ReadFiles(_routeFolderImg);
+        _maxImageNumber = ReadFiles(_imgFolder);
         if (_maxImageNumber == 0)
         {
             MessageBox.Show("No hay imágenes que mostrar");
@@ -40,7 +37,7 @@ public partial class MainWindow : Window
         }
 
         string nombreImagen = string.Format($"{_counter}.png");
-        MainImage.Source = new BitmapImage(new Uri(@$"{_routeFolderImg}\{nombreImagen}"));
+        MainImage.Source = new BitmapImage(new Uri(@$"{_imgFolder}\{nombreImagen}"));
 
         _counter++;
 
@@ -66,14 +63,9 @@ public partial class MainWindow : Window
 
     private Task CreateFolder()
     {
-        if (!Directory.Exists(_routeFolder))
+        if (!Directory.Exists(_imgFolder))
         {
-            Directory.CreateDirectory(_routeFolder);
-        }
-
-        if (!Directory.Exists(_routeFolderImg))
-        {
-            Directory.CreateDirectory(_routeFolderImg);
+            Directory.CreateDirectory(_imgFolder);
         }
 
         return Task.CompletedTask;
@@ -94,7 +86,7 @@ public partial class MainWindow : Window
 
     private async Task ReadConfigFile()
     {
-        //leemos el archivo de configuracion
+        //leemos el archivo de Savings.txt
         try
         {
             using StreamReader reader = new(_routeFile);
@@ -117,5 +109,23 @@ public partial class MainWindow : Window
 
         this.Left = screenWidth - windowWidth;
         this.Top = screenHeight - (windowHeight + 40);
+    }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        int name = _counter - 1;
+
+        if (name == 0)
+        {
+            name = _counter;
+        }
+
+        string nombreImagen = string.Format($"{name}.png");
+        MainImage.Source = new BitmapImage(new Uri(@$"{_imgFolder}\{nombreImagen}"));
+    }
+
+    private void Button_ClickAtras(object sender, RoutedEventArgs e)
+    {
+
     }
 }
