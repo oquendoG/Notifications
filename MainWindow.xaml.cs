@@ -13,7 +13,6 @@ public partial class MainWindow : Window
 {
     private int _counter;
     private int _maxImageNumber;
-    //private string _docsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
     private string _imgFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + @"\NotificationsImg";
     private string _routeFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Savings.txt";
 
@@ -37,7 +36,22 @@ public partial class MainWindow : Window
         }
 
         string nombreImagen = string.Format($"{_counter}.png");
-        MainImage.Source = new BitmapImage(new Uri(@$"{_imgFolder}\{nombreImagen}"));
+        try
+        {
+            if (_imgFolder.Contains("Pictures"))
+            {
+                string modifiedRoute = _imgFolder.Replace("Pictures", "Imágenes");
+                MainImage.Source = new BitmapImage(new Uri(@$"{modifiedRoute}\{nombreImagen}", UriKind.Relative));
+                return;
+            }
+
+            MainImage.Source = new BitmapImage(new Uri(@$"{_imgFolder}\{nombreImagen}"));
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show("Ruta de imágen incorrecta");
+            Console.WriteLine(ex.Message);
+        }
 
         _counter++;
 
@@ -121,11 +135,34 @@ public partial class MainWindow : Window
         }
 
         string nombreImagen = string.Format($"{name}.png");
-        MainImage.Source = new BitmapImage(new Uri(@$"{_imgFolder}\{nombreImagen}"));
+        if (_imgFolder.Contains("Pictures"))
+        {
+            string modifiedRoute = _imgFolder.Replace("Pictures", "Imágenes");
+            MainImage.Source = new BitmapImage(new Uri(@$"{modifiedRoute}\{nombreImagen}"));
+            return;
+        }
+
+        MainImage.Source = new BitmapImage(new Uri(@$"{_imgFolder}\{nombreImagen}", UriKind.Relative));
     }
 
-    private void Button_ClickAtras(object sender, RoutedEventArgs e)
+    private void Button_ClickAdelante(object sender, RoutedEventArgs e)
     {
+        int name = _counter + 1;
+
+        if (name > _counter)
+        {
+            name = _counter;
+        }
+
+        string nombreImagen = string.Format($"{name}.png");
+        if (_imgFolder.Contains("Pictures"))
+        {
+            string modifiedRoute = _imgFolder.Replace("Pictures", "Imágenes");
+            MainImage.Source = new BitmapImage(new Uri(@$"{modifiedRoute}\{nombreImagen}", UriKind.Relative));
+            return;
+        }
+
+        MainImage.Source = new BitmapImage(new Uri(@$"{_imgFolder}\{nombreImagen}", UriKind.Relative));
 
     }
 }

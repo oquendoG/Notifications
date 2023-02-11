@@ -7,10 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="700" Width="500" HorizontalAlignment="Center" VerticalAlignment="Center">
     <Grid Width="500" Height="700" FlowDirection="RightToLeft">
-        <Button x:Name="btnAtras" Panel.ZIndex="10" Content="Anterior" HorizontalAlignment="Left" Margin="380,620,0,0" VerticalAlignment="Top" Width="99" Height="34" Click="Button_Click" FontFamily="Roboto" FontSize="16" Opacity="0.89" OpacityMask="White" Background="White" BorderBrush="Transparent" Cursor="Hand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="79*"/>
+            <RowDefinition Height="271*"/>
+        </Grid.RowDefinitions>
+        <Image x:Name="MainImage" HorizontalAlignment="Left" Height="700" VerticalAlignment="Top" Width="500" Loaded="MainImage_Loaded" Panel.ZIndex="20" RenderTransformOrigin="1.52,0.453" Grid.RowSpan="2" Margin="0,0,0,0"/>
+        <Button x:Name="btnAtras" Panel.ZIndex="10" Content="Anterior" HorizontalAlignment="Left" Margin="380,462,0,0" VerticalAlignment="Top" Width="99" Height="34" Click="Button_Click" FontFamily="Roboto" FontSize="16" Opacity="0.89" OpacityMask="White" Background="White" BorderBrush="Transparent" Cursor="Hand" Grid.Row="1">
 
         </Button>
-        <Image x:Name="MainImage" HorizontalAlignment="Right" Height="700" Margin="0,0,0,0" VerticalAlignment="Top" Width="500" Grid.ColumnSpan="4" Loaded="MainImage_Loaded" Panel.ZIndex="8"/>
-        <Button x:Name="btnSiguiente" Panel.ZIndex="10"  Content="Siguiente" HorizontalAlignment="Left" Margin="30,620,0,0" VerticalAlignment="Top" Width="99" Height="34" Click="Button_ClickAtras" FontFamily="Roboto" FontSize="16" Opacity="0.89" OpacityMask="White" Background="White" BorderBrush="Transparent" SnapsToDevicePixels="True" Cursor="Hand"/>
+        <Button x:Name="btnSiguiente" Panel.ZIndex="10"  Content="Siguiente" HorizontalAlignment="Left" Margin="30,462,0,0" VerticalAlignment="Top" Width="99" Height="34" Click="Button_ClickAdelante" FontFamily="Roboto" FontSize="16" Opacity="0.89" OpacityMask="White" Background="White" BorderBrush="Transparent" SnapsToDevicePixels="True" Cursor="Hand" Grid.Row="1"/>
     </Grid>
 </Window>
