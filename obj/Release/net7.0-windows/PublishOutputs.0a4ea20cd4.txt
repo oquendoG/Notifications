@@ -1,0 +1,5 @@
+C:\Users\Wilson\Desktop\Notificaction\Notification.exe
+C:\Users\Wilson\Desktop\Notificaction\Notification.dll
+C:\Users\Wilson\Desktop\Notificaction\Notification.deps.json
+C:\Users\Wilson\Desktop\Notificaction\Notification.runtimeconfig.json
+C:\Users\Wilson\Desktop\Notificaction\Notification.pdb

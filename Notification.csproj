@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>disable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>notify.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="notify.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="1.png" />
+  </ItemGroup>
+
+</Project>
