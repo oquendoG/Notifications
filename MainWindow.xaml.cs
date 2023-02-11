@@ -14,8 +14,9 @@ public partial class MainWindow : Window
 {
     private int _counter;
     private int _maxImageNumber;
-    private string _route;
-    private string _finalRoute;
+    private string _routeFile = @"c:\ProgramData\Notifications\Savings.txt";
+    private string _routeFolder = @"c:\ProgramData\Notifications";
+    private string _routeFolderImg = @"c:\ProgramData\NotificationsImg";
 
     public MainWindow()
     {
@@ -25,15 +26,21 @@ public partial class MainWindow : Window
 
     private async void MainImage_Loaded(object sender, RoutedEventArgs e)
     {
+        await CreateFolder();
         await CreateFile();
         await ReadConfigFile();
 
-        _route = Environment.CurrentDirectory;
-        _finalRoute = Directory.GetParent(_route).Parent.Parent.FullName;
-        _maxImageNumber = ReadFiles(@$"{_finalRoute}\Assets");
-        string nombreImagen = string.Format($"{_counter}.png");
+        //_route = Environment.CurrentDirectory;
+        //_finalRoute = Directory.GetParent(_route).Parent.Parent.FullName;
+        _maxImageNumber = ReadFiles(_routeFolderImg);
+        if (_maxImageNumber == 0)
+        {
+            MessageBox.Show("No hay imágenes que mostrar");
+            return;
+        }
 
-        MainImage.Source = new BitmapImage(new Uri(@$"{_finalRoute}\Assets\{nombreImagen}"));
+        string nombreImagen = string.Format($"{_counter}.png");
+        MainImage.Source = new BitmapImage(new Uri(@$"{_routeFolderImg}\{nombreImagen}"));
 
         _counter++;
 
@@ -41,11 +48,11 @@ public partial class MainWindow : Window
             _counter = 1;
         try
         {
-
-            File.WriteAllText(@"c:\Configuration.txt", _counter.ToString());
-        } catch(Exception ex)
+            File.WriteAllText(_routeFile, _counter.ToString());
+        }
+        catch (Exception ex)
         {
-            MessageBox.Show("No se puedo escribir en el archivo");
+            MessageBox.Show("No se puede acceder al sistema de archivos");
             Console.WriteLine(ex.Message);
         }
     }
@@ -57,12 +64,27 @@ public partial class MainWindow : Window
         return files.Length;
     }
 
+    private Task CreateFolder()
+    {
+        if (!Directory.Exists(_routeFolder))
+        {
+            Directory.CreateDirectory(_routeFolder);
+        }
+
+        if (!Directory.Exists(_routeFolderImg))
+        {
+            Directory.CreateDirectory(_routeFolderImg);
+        }
+
+        return Task.CompletedTask;
+    }
+
     private Task CreateFile()
     {
         //Creamos el archivo de configuración
-        if (!File.Exists(@"c:\Configuration.txt"))
+        if (!File.Exists(_routeFile))
         {
-            using FileStream file = File.Create(@"c:\Configuration.txt");
+            using FileStream file = File.Create(_routeFile);
             byte[] miInfo = new UTF8Encoding(true).GetBytes("1");
             file.Write(miInfo, 0, miInfo.Length);
         }
@@ -75,7 +97,7 @@ public partial class MainWindow : Window
         //leemos el archivo de configuracion
         try
         {
-            using StreamReader reader = new(@"c:\Configuration.txt");
+            using StreamReader reader = new(_routeFile);
             _counter = int.Parse(await reader.ReadLineAsync());
         }
         catch (Exception e)
