@@ -1,0 +1,5 @@
+C:\Users\woquendo\Desktop\Notifications\bin\Release\net7.0-windows\publish\Notification.exe
+C:\Users\woquendo\Desktop\Notifications\bin\Release\net7.0-windows\publish\Notification.dll
+C:\Users\woquendo\Desktop\Notifications\bin\Release\net7.0-windows\publish\Notification.deps.json
+C:\Users\woquendo\Desktop\Notifications\bin\Release\net7.0-windows\publish\Notification.runtimeconfig.json
+C:\Users\woquendo\Desktop\Notifications\bin\Release\net7.0-windows\publish\Notification.pdb

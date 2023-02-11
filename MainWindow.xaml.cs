@@ -38,7 +38,7 @@ public partial class MainWindow : Window
         string nombreImagen = string.Format($"{_counter}.jpg");
         try
         {
-            MainImage.Source = new BitmapImage(new Uri(@$"{_userFolder}\{nombreImagen}", UriKind.Relative));
+            MainImage.Source = new BitmapImage(new Uri(@$"{_userFolder}\{nombreImagen}", UriKind.Absolute));
         }
         catch (Exception ex)
         {
@@ -128,8 +128,14 @@ public partial class MainWindow : Window
         }
 
         string nombreImagen = string.Format($"{name}.jpg");
-
-        MainImage.Source = new BitmapImage(new Uri(@$"{_userFolder}\{nombreImagen}", UriKind.Relative));
+        try {
+             MainImage.Source = new BitmapImage(new Uri(@$"{_userFolder}\{nombreImagen}", UriKind.RelativeOrAbsolute));
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show("Ruta de imágen incorrecta");
+            Console.WriteLine(ex.Message);
+        }
     }
 
     private void Button_ClickAdelante(object sender, RoutedEventArgs e)
@@ -143,7 +149,15 @@ public partial class MainWindow : Window
 
         string nombreImagen = string.Format($"{name}.png");
 
-        MainImage.Source = new BitmapImage(new Uri(@$"{_userFolder}\{nombreImagen}", UriKind.Relative));
+        try
+        {
+            MainImage.Source = new BitmapImage(new Uri(@$"{_userFolder}\{nombreImagen}", UriKind.RelativeOrAbsolute));
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show("Ruta de imágen incorrecta");
+            Console.WriteLine(ex.Message);
+        }
 
     }
 }
