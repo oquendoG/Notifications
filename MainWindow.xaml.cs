@@ -13,7 +13,7 @@ public partial class MainWindow : Window
 {
     private int _counter;
     private int _maxImageNumber;
-    private string _imgFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + @"\NotificationsImg";
+    private string _userFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\NotificationsImg";
     private string _routeFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Savings.txt";
 
     public MainWindow()
@@ -28,24 +28,17 @@ public partial class MainWindow : Window
         await CreateFile();
         await ReadConfigFile();
 
-        _maxImageNumber = ReadFiles(_imgFolder);
+        _maxImageNumber = ReadFiles(_userFolder);
         if (_maxImageNumber == 0)
         {
             MessageBox.Show("No hay imágenes que mostrar");
             return;
         }
 
-        string nombreImagen = string.Format($"{_counter}.png");
+        string nombreImagen = string.Format($"{_counter}.jpg");
         try
         {
-            if (_imgFolder.Contains("Pictures"))
-            {
-                string modifiedRoute = _imgFolder.Replace("Pictures", "Imágenes");
-                MainImage.Source = new BitmapImage(new Uri(@$"{modifiedRoute}\{nombreImagen}", UriKind.Relative));
-                return;
-            }
-
-            MainImage.Source = new BitmapImage(new Uri(@$"{_imgFolder}\{nombreImagen}"));
+            MainImage.Source = new BitmapImage(new Uri(@$"{_userFolder}\{nombreImagen}", UriKind.Relative));
         }
         catch (Exception ex)
         {
@@ -77,9 +70,9 @@ public partial class MainWindow : Window
 
     private Task CreateFolder()
     {
-        if (!Directory.Exists(_imgFolder))
+        if (!Directory.Exists(_userFolder))
         {
-            Directory.CreateDirectory(_imgFolder);
+            Directory.CreateDirectory(_userFolder);
         }
 
         return Task.CompletedTask;
@@ -134,15 +127,9 @@ public partial class MainWindow : Window
             name = _counter;
         }
 
-        string nombreImagen = string.Format($"{name}.png");
-        if (_imgFolder.Contains("Pictures"))
-        {
-            string modifiedRoute = _imgFolder.Replace("Pictures", "Imágenes");
-            MainImage.Source = new BitmapImage(new Uri(@$"{modifiedRoute}\{nombreImagen}"));
-            return;
-        }
+        string nombreImagen = string.Format($"{name}.jpg");
 
-        MainImage.Source = new BitmapImage(new Uri(@$"{_imgFolder}\{nombreImagen}", UriKind.Relative));
+        MainImage.Source = new BitmapImage(new Uri(@$"{_userFolder}\{nombreImagen}", UriKind.Relative));
     }
 
     private void Button_ClickAdelante(object sender, RoutedEventArgs e)
@@ -155,14 +142,8 @@ public partial class MainWindow : Window
         }
 
         string nombreImagen = string.Format($"{name}.png");
-        if (_imgFolder.Contains("Pictures"))
-        {
-            string modifiedRoute = _imgFolder.Replace("Pictures", "Imágenes");
-            MainImage.Source = new BitmapImage(new Uri(@$"{modifiedRoute}\{nombreImagen}", UriKind.Relative));
-            return;
-        }
 
-        MainImage.Source = new BitmapImage(new Uri(@$"{_imgFolder}\{nombreImagen}", UriKind.Relative));
+        MainImage.Source = new BitmapImage(new Uri(@$"{_userFolder}\{nombreImagen}", UriKind.Relative));
 
     }
 }
