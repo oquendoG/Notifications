@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Xml.Linq;
 
 namespace Notificaction;
 /// <summary>
@@ -26,7 +30,7 @@ public partial class MainWindow : Window
     {
         await CreateFolder();
         await CreateFile();
-        await ReadConfigFile();
+        await ReadSavingsFile();
 
         _maxImageNumber = ReadFiles(_userFolder);
         if (_maxImageNumber == 0)
@@ -35,10 +39,15 @@ public partial class MainWindow : Window
             return;
         }
 
-        string nombreImagen = string.Format($"{_counter}.jpg");
+        ShowImage();
+    }
+
+    private void ShowImage()
+    {
+        string nombreImagen = string.Format($"{_counter}{DefineExtension(_userFolder)}");
         try
         {
-            MainImage.Source = new BitmapImage(new Uri(@$"{_userFolder}\{nombreImagen}", UriKind.Absolute));
+            MainImage.Source = new BitmapImage(new Uri(@$"{_userFolder}\{nombreImagen}", UriKind.RelativeOrAbsolute));
         }
         catch (Exception ex)
         {
@@ -68,6 +77,18 @@ public partial class MainWindow : Window
         return files.Length;
     }
 
+    private string DefineExtension(string ruta)
+    {
+        List<string> files = Directory.GetFiles(ruta).ToList();
+        string hasExtension = files[0];
+        if (hasExtension.Contains(".jpg"))
+        {
+            return ".jpg";
+        }
+
+        return ".png";
+    }
+
     private Task CreateFolder()
     {
         if (!Directory.Exists(_userFolder))
@@ -91,7 +112,7 @@ public partial class MainWindow : Window
         return Task.CompletedTask;
     }
 
-    private async Task ReadConfigFile()
+    private async Task ReadSavingsFile()
     {
         //leemos el archivo de Savings.txt
         try
@@ -118,46 +139,14 @@ public partial class MainWindow : Window
         this.Top = screenHeight - (windowHeight + 40);
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e)
+    private void Button_ClickPrevious(object sender, RoutedEventArgs e)
     {
-        int name = _counter - 1;
 
-        if (name == 0)
-        {
-            name = _counter;
-        }
-
-        string nombreImagen = string.Format($"{name}.jpg");
-        try {
-             MainImage.Source = new BitmapImage(new Uri(@$"{_userFolder}\{nombreImagen}", UriKind.RelativeOrAbsolute));
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show("Ruta de imágen incorrecta");
-            Console.WriteLine(ex.Message);
-        }
     }
 
-    private void Button_ClickAdelante(object sender, RoutedEventArgs e)
+    private async void Button_ClickNext(object sender, RoutedEventArgs e)
     {
-        int name = _counter + 1;
 
-        if (name > _counter)
-        {
-            name = _counter;
-        }
-
-        string nombreImagen = string.Format($"{name}.png");
-
-        try
-        {
-            MainImage.Source = new BitmapImage(new Uri(@$"{_userFolder}\{nombreImagen}", UriKind.RelativeOrAbsolute));
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show("Ruta de imágen incorrecta");
-            Console.WriteLine(ex.Message);
-        }
 
     }
 }
