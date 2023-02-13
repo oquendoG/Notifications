@@ -15,10 +15,11 @@ namespace Notificaction;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private int _counter;
+    private int _counter = 1;
+    private int _previousImgNumber;
     private int _maxImageNumber;
     private string _userFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\NotificationsImg";
-    private string _routeFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Savings.txt";
+    protected string _routeFile = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\Savings.txt";
 
     public MainWindow()
     {
@@ -79,7 +80,7 @@ public partial class MainWindow : Window
 
     private string DefineExtension(string ruta)
     {
-        List<string> files = Directory.GetFiles(ruta).ToList();
+        List<string> files = (Directory.GetFiles(ruta)).ToList();
         string hasExtension = files[0];
         if (hasExtension.Contains(".jpg"))
         {
@@ -119,6 +120,7 @@ public partial class MainWindow : Window
         {
             using StreamReader reader = new(_routeFile);
             _counter = int.Parse(await reader.ReadLineAsync());
+
         }
         catch (Exception e)
         {
@@ -141,12 +143,72 @@ public partial class MainWindow : Window
 
     private void Button_ClickPrevious(object sender, RoutedEventArgs e)
     {
+        int previousImage = GetPreviousImageName();
+
+        try
+        {
+            MainImage.Source = new BitmapImage(new Uri(@$"{_userFolder}\{previousImage}{DefineExtension(_userFolder)}", UriKind.RelativeOrAbsolute));
+            _counter--;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show("Ruta de imágen incorrecta");
+            Console.WriteLine(ex.Message);
+        }
 
     }
 
-    private async void Button_ClickNext(object sender, RoutedEventArgs e)
+    private void Button_ClickNext(object sender, RoutedEventArgs e)
     {
+        int currentImage = GetNextImageName();
 
+        if (currentImage == 0)
+        {
+            currentImage = 1;
+        }
+        try
+        {
+            MainImage.Source = new BitmapImage(new Uri(@$"{_userFolder}\{currentImage}{DefineExtension(_userFolder)}", UriKind.RelativeOrAbsolute));
 
+            _counter++;
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show("Ruta de imágen incorrecta");
+            Console.WriteLine(ex.Message);
+        }
+
+    }
+
+    private int GetNextImageName()
+    {
+        _previousImgNumber = _counter;
+
+        if (_previousImgNumber > _maxImageNumber)
+        {
+            _counter = 1;
+            _previousImgNumber = 1;
+        }
+
+        return _previousImgNumber;
+    }
+
+    private int GetPreviousImageName()
+    {
+        _previousImgNumber = _counter - 2;
+
+        if (_previousImgNumber == 0)
+        {
+            _previousImgNumber = _maxImageNumber;
+            _counter = 1;
+        }
+
+        if(_previousImgNumber < 0)
+        {
+            _previousImgNumber = 1;
+            _counter += 2;
+        }
+
+        return _previousImgNumber;
     }
 }
