@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using System.Xml.Linq;
 
 namespace Notificaction;
 /// <summary>
@@ -40,10 +38,10 @@ public partial class MainWindow : Window
             return;
         }
 
-        ShowImage();
+        await ShowImage();
     }
 
-    private void ShowImage()
+    private Task ShowImage()
     {
         string nombreImagen = string.Format($"{_counter}{DefineExtension(_userFolder)}");
         try
@@ -69,6 +67,8 @@ public partial class MainWindow : Window
             MessageBox.Show("No se puede acceder al sistema de archivos");
             Console.WriteLine(ex.Message);
         }
+
+        return Task.CompletedTask;
     }
 
     private int ReadFiles(string ruta)
@@ -200,13 +200,12 @@ public partial class MainWindow : Window
         if (_previousImgNumber == 0)
         {
             _previousImgNumber = _maxImageNumber;
-            _counter = 1;
         }
 
         if(_previousImgNumber < 0)
         {
-            _previousImgNumber = 1;
-            _counter += 2;
+            _previousImgNumber = _maxImageNumber - 1;
+            _counter+=3;
         }
 
         return _previousImgNumber;
