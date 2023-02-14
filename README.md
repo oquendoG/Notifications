@@ -13,7 +13,5 @@ en las pantallas de 1366 * 768 no se desborde.
 
 Acepta jpg y png como formatos pero solo uno a la vez, no mezclados.
 
-En el primer inicio del programa el creara la carpeta mencionada sino ha sido creada y en la carpeta documentos del usuario actual, se creara un archivo
-de texto llamado Savings.txt que que guardará el número de la imágen siguiente que mostrará la suiguiente vez que se abra.
-
-
+En el primer inicio del programa el creará la carpeta mencionada, sino ha sido creada, y en la carpeta documentos del usuario actual, se creará un archivo
+de texto llamado Savings.txt que que guardará el número de la imagen siguiente que mostrará la siguiente vez que se abra.
